@@ -1,5 +1,4 @@
-import { Resolvers } from '../type';
-import client from '../client';
+import { Resolvers } from '../../type';
 import bcrypt from 'bcrypt';
 
 interface IUserArgs {
@@ -14,7 +13,8 @@ const resolvers: Resolvers = {
   Mutation: {
     createAccount: async (
       _,
-      { email, name, username, password, location }: IUserArgs
+      { email, name, username, password, location }: IUserArgs,
+      { client }
     ) => {
       const existingUser = await client.user.findFirst({
         where: {
@@ -38,7 +38,7 @@ const resolvers: Resolvers = {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const user = await client.user.create({
+      await client.user.create({
         data: {
           username,
           email,
@@ -47,7 +47,6 @@ const resolvers: Resolvers = {
           location,
         },
       });
-      // console.log(user);
 
       return {
         ok: true,

@@ -13,20 +13,4 @@ export default gql`
     createAt: String!
     updateAt: String!
   }
-  type ReturnObj {
-    ok: Boolean!
-    error: String
-  }
-  type Query {
-    user(id: Int!): User
-  }
-  type Mutation {
-    createAccount(
-      username: String!
-      email: String!
-      name: String
-      location: String
-      password: String!
-    ): ReturnObj
-  }
 `;
