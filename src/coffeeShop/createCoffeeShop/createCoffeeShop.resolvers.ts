@@ -10,8 +10,12 @@ export default {
         { name, latitude, longitude, category, file },
         { client, loggedInUser }
       ) => {
+        let photoUrl: string | null = null;
+        if (file) {
+          photoUrl = await handleFile(file, loggedInUser.id);
+        }
         try {
-          const shop = await client.coffeeShop.create({
+          await client.coffeeShop.create({
             data: {
               name,
               latitude,
@@ -24,22 +28,15 @@ export default {
               categories: {
                 connectOrCreate: processCategory(category),
               },
-            },
-          });
-
-          if (file) {
-            const photoUrl = await handleFile(file, loggedInUser.id);
-            await client.coffeeShopPhoto.create({
-              data: {
-                url: photoUrl,
-                shop: {
-                  connect: {
-                    id: shop.id,
+              ...(photoUrl && {
+                photos: {
+                  create: {
+                    url: photoUrl,
                   },
                 },
-              },
-            });
-          }
+              }),
+            },
+          });
 
           return {
             ok: true,

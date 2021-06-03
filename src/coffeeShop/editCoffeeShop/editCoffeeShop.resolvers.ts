@@ -31,6 +31,18 @@ export default {
         }
 
         try {
+          let photoUrl: string | null = null;
+          if (file) {
+            photoUrl = await handleFile(file, loggedInUser.id);
+            await client.coffeeShopPhoto.deleteMany({
+              where: {
+                shop: {
+                  id,
+                },
+              },
+            });
+          }
+
           await client.coffeeShop.update({
             where: {
               id,
@@ -39,6 +51,13 @@ export default {
               name,
               latitude,
               longitude,
+              ...(photoUrl && {
+                photos: {
+                  create: {
+                    url: photoUrl,
+                  },
+                },
+              }),
               ...(category && {
                 categories: {
                   disconnect: shop.categories,
@@ -47,20 +66,6 @@ export default {
               }),
             },
           });
-
-          if (file) {
-            const photoUrl = await handleFile(file, loggedInUser.id);
-            await client.coffeeShopPhoto.create({
-              data: {
-                url: photoUrl,
-                shop: {
-                  connect: {
-                    id,
-                  },
-                },
-              },
-            });
-          }
 
           return {
             ok: true,
