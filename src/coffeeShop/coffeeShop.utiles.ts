@@ -2,11 +2,14 @@ import { FileUpload } from 'graphql-upload';
 import { createWriteStream } from 'fs';
 import path from 'path';
 
-export const processCategory = (category: string) => {
-  const slug = category
+export const createSlug = (name: string) =>
+  name
     .match(/[^\s]+/g)
     ?.join('-')
     .toLowerCase() as string;
+
+export const processCategory = (category: string) => {
+  const slug = createSlug(category);
 
   return {
     where: {
