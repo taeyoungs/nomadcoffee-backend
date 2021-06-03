@@ -13,6 +13,8 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   uploads: false,
+  playground: true,
+  introspection: true,
   context: async ({ req }) => {
     return {
       client,
