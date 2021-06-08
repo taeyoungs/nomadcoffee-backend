@@ -32,7 +32,7 @@ const resolvers: Resolvers = {
       if (existingUser) {
         return {
           ok: false,
-          error: 'username or email is already taken',
+          error: '이미 사용 중인 사용자 이름 또는 이메일입니다.',
         };
       }
 

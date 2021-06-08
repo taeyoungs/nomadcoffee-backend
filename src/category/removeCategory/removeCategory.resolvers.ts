@@ -13,7 +13,7 @@ export default {
       if (!category) {
         return {
           ok: false,
-          error: 'Cannot find catogory.',
+          error: '존재하지 않는 카테고리입니다.',
         };
       }
 
