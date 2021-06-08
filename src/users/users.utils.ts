@@ -34,7 +34,7 @@ export function protectedResolver(resolver: Resolver): Resolver {
     if (!ctx.loggedInUser) {
       return {
         ok: false,
-        error: 'Please log in to perform this action',
+        error: '로그인이 필요한 작업입니다. 로그인 후 이용해주세요.',
       };
     }
     return resolver(root, args, ctx, info);

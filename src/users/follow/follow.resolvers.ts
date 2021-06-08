@@ -16,7 +16,7 @@ const resolvers: Resolvers = {
         if (!user) {
           return {
             ok: false,
-            error: 'Cannot find user',
+            error: '사용자 이름에 해당하는 계정을 찾을 수 없습니다.',
           };
         }
 

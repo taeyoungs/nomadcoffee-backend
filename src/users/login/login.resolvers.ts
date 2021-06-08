@@ -14,7 +14,7 @@ const resolvers: Resolvers = {
       if (!user) {
         return {
           ok: false,
-          error: 'Cannot find User',
+          error: '입력한 사용자 이름을 사용하는 계정을 찾을 수 없습니다.',
         };
       }
 
@@ -23,7 +23,7 @@ const resolvers: Resolvers = {
       if (!matchPassword) {
         return {
           ok: false,
-          error: 'Password does not match',
+          error: '비밀번호가 일치하지 않습니다.',
         };
       }
 

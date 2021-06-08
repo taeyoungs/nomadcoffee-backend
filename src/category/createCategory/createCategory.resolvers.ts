@@ -14,7 +14,7 @@ export default {
       if (existedCategory) {
         return {
           ok: false,
-          error: 'Category name is already exists.',
+          error: '이미 사용 중인 카테고리 이름입니다.',
         };
       }
 

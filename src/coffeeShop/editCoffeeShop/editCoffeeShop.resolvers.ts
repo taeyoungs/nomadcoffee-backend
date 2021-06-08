@@ -26,7 +26,7 @@ export default {
         if (!shop) {
           return {
             ok: false,
-            error: 'Cannot find coffee shop.',
+            error: '존재하지 않는 커피숍입니다.',
           };
         }
 
