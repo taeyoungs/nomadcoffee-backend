@@ -12,6 +12,6 @@ export default gql`
       name: String
       location: String
       password: String!
-    ): CreateAccountResult
+    ): CreateAccountResult!
   }
 `;
