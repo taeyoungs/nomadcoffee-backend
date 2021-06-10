@@ -2,6 +2,7 @@ import { gql } from 'apollo-server-core';
 
 export default gql`
   scalar Upload
+
   type CoffeeShop {
     id: Int!
     name: String!

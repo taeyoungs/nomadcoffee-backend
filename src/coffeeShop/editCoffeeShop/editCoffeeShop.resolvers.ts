@@ -43,7 +43,7 @@ export default {
             });
           }
 
-          await client.coffeeShop.update({
+          const updatedShop = await client.coffeeShop.update({
             where: {
               id,
             },
@@ -69,6 +69,7 @@ export default {
 
           return {
             ok: true,
+            coffeeShop: updatedShop,
           };
         } catch (error) {
           return {

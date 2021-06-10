@@ -4,6 +4,7 @@ export default gql`
   type EditCoffeeShopResult {
     ok: Boolean!
     error: String
+    coffeeShop: CoffeeShop
   }
   type Mutation {
     editCoffeeShop(
