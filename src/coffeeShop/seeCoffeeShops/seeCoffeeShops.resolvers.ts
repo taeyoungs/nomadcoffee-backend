@@ -19,7 +19,7 @@ export default {
           ...(cursor && { cursor: { id: cursor } }),
         });
 
-        const endCursor = shops[shops.length - 1].id;
+        const endCursor = shops.length !== 0 ? shops[shops.length - 1].id : 0;
 
         return {
           coffeeShops: shops,
