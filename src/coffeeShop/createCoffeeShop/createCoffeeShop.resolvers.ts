@@ -1,3 +1,4 @@
+import { uploadToS3 } from '../../shared/shared.utils';
 import { Resolvers } from '../../type';
 import { protectedResolver } from '../../users/users.utils';
 import { handleFile, processCategory } from '../coffeeShop.utiles';
@@ -12,7 +13,7 @@ export default {
       ) => {
         let photoUrl: string | null = null;
         if (file) {
-          photoUrl = await handleFile(file, loggedInUser.id);
+          photoUrl = await uploadToS3(file, loggedInUser.id, 'uploads');
         }
         try {
           const newShop = await client.coffeeShop.create({

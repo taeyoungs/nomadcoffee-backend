@@ -1,6 +1,7 @@
+import { deleteUploadedFile, uploadToS3 } from '../../shared/shared.utils';
 import { Resolvers } from '../../type';
 import { protectedResolver } from '../../users/users.utils';
-import { handleFile, processCategory } from '../coffeeShop.utiles';
+import { processCategory } from '../coffeeShop.utiles';
 
 export default {
   Mutation: {
@@ -33,7 +34,24 @@ export default {
         try {
           let photoUrl: string | null = null;
           if (file) {
-            photoUrl = await handleFile(file, loggedInUser.id);
+            const deletedPhotos = await client.coffeeShopPhoto.findMany({
+              where: {
+                shop: {
+                  id,
+                },
+              },
+              select: {
+                url: true,
+              },
+            });
+
+            if (deletedPhotos.length > 0) {
+              deletedPhotos.forEach(
+                async (photo) => await deleteUploadedFile(photo.url, 'uploads')
+              );
+            }
+
+            photoUrl = await uploadToS3(file, loggedInUser.id, 'uploads');
             await client.coffeeShopPhoto.deleteMany({
               where: {
                 shop: {
