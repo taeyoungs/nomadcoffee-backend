@@ -1,3 +1,4 @@
+import { deleteUploadedFile } from '../../shared/shared.utils';
 import { Resolvers } from '../../type';
 import { protectedResolver } from '../../users/users.utils';
 
@@ -7,16 +8,35 @@ export default {
       async (_, { id }, { client, loggedInUser }) => {
         const shop = await client.coffeeShop.findUnique({
           where: { id },
+          select: { userId: true },
         });
         if (!shop) {
           return {
             ok: false,
             error: '존재하지 않는 커피숍입니다.',
           };
-        }
+        } else if (shop.userId !== loggedInUser.id) {
+          return {
+            ok: false,
+            error: '권한이 없습니다.',
+          };
+        } else {
+          // cascade delete 미지원 => photo부터 삭제
+          const deletedPhotos = await client.coffeeShopPhoto.findMany({
+            where: {
+              shop: {
+                id,
+              },
+            },
+            select: {
+              url: true,
+            },
+          });
 
-        // cascade delete 미지원 => photo부터 삭제
-        try {
+          deletedPhotos.forEach(
+            async (photo) => await deleteUploadedFile(photo.url, 'uploads')
+          );
+
           await client.coffeeShopPhoto.deleteMany({
             where: {
               shop: {
@@ -24,6 +44,7 @@ export default {
               },
             },
           });
+
           const removedShop = await client.coffeeShop.delete({
             where: {
               id,
@@ -33,11 +54,6 @@ export default {
           return {
             ok: true,
             coffeeShop: removedShop,
-          };
-        } catch (error) {
-          return {
-            ok: false,
-            error: `${error}`,
           };
         }
       }

@@ -7,4 +7,4 @@
 - [x] Task 3 (05.28) - User Profile
 - [x] Task 4 (05.31) - Follow, Unfollow
 - [x] Task 5 (06.01) - CoffeeShop Model, Resolvers
-- [ ] Task 6 (06.03) - Backend Deploy
+- [x] Task 6 (06.03) - Backend Deploy
